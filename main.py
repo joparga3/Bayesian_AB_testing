@@ -1,14 +1,20 @@
-from bayesian_calculator import PosteriorGenerator
+from bayesian_calculator.bayesian_proportions_calculator import ProportionsCalculator
 
-d = PosteriorGenerator.PosteriorGenerator(N_ctrl=100, N_test=100, ctrl_successes=33, test_successes=50
-                       , ctrl_name='control', test_name='variant'
-                       , prior_alpha_ctrl = 5
-                       , prior_beta_ctrl = 16)
+d = ProportionsCalculator(N_ctrl=97124, N_test=94711, ctrl_successes=264, test_successes=245
+                          , ctrl_name='ctrl', test_name='variant')
 
 print('---------------------------------------------------')
 print('Simulation Summary Results:')
 print('---------------------------------------------------')
 print(d.simulationResults_summary())
+
+print('')
+print('---------------------------------------------------')
+print('Decision Criteria results:')
+print('---------------------------------------------------')
+print(d.decisionCriteria_BayesFactor().get('bayes_criteria'))
+print(d.decisionCriteria_ROPE_only().get('ROPE_criteria'))
+print(d.decisionCriteria_ROPE_with_HDI().get('ROPE_with_HDI_criteria'))
 
 print('')
 print('---------------------------------------------------')
@@ -22,5 +28,6 @@ print('Success rate ratio percentile table')
 print('---------------------------------------------------')
 print(d.simulationResults_percentilesRatio())
 
-d.plotSimulations().show()
 d.plotPosteriorDistributions().show()
+d.plotSimulations().show()
+d.plotSimulations_ROPE_HDI().show()
